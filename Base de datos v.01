@@ -44,7 +44,6 @@ telefono varchar(100),
 correo varchar(100),
 sitio_web varchar(100),
 ubicacion varchar(100),
-perfil_redes_sociales varchar(100),
 foreign key (identificador) references entrenadores (identificador)
 )
 
@@ -83,6 +82,5 @@ telefono varchar(100),
 correo varchar(100),
 sitio_web varchar(100),
 ubicacion varchar(100),
-perfil_redes_sociales varchar(100),
 foreign key (cedula) references registro_usuario (cedula)
 )
