@@ -15,7 +15,7 @@ ataque_especial int,
 defensa_especial int,
 velocidad int,
 generacion int,
-legendary varchar(100),
+legendary bool,
 primary key (Nombre)
 )
 select * from pokemon
