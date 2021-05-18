@@ -1,0 +1,114 @@
+/* Tecnologico de Costa Rica
+	Bases de Datos
+	Proyecto AtiDex
+Integrantes:
+
+
+*/
+
+--Selecciona la BD a utilizar
+use AtiDex
+
+--Tabla de usuarios--
+create table Usuario (
+id_usuario int NOT NULL,
+nombre_usuario varchar(100),
+rol varchar(50),
+provincia varchar(100),
+canton varchar(100),
+distrito varchar(100),
+telefono varchar(100),
+correo_electronico varchar(100),
+contraseña varbinary (100),
+primary key(id_usuario)
+)
+
+--Tabla de Pokemones
+create table Pokemon (
+id_pokemon int NOT NULL,
+nombre_pokemon varchar(100) NOT NULL,
+Tipo1 varchar(100),
+Tipo2 varchar(100),
+total int,
+salud int,
+ataque int,
+defensa int,
+ataque_especial int,
+defensa_especial int,
+velocidad int,
+generacion int,
+legendario bit not null,
+primary key (id_pokemon),
+)
+
+--Tabla de Mochila pokemon
+create table Mochila (
+id_entrenadorMo int NOT NULL,
+id_pokemonMo int NOT NULL,
+estado varchar (20),
+foreign key (id_entrenadorMo) references Usuario (id_usuario) 
+ON DELETE CASCADE  
+ON UPDATE CASCADE,
+foreign key (id_pokemonMo) references Pokemon (id_pokemon) 
+ON DELETE CASCADE 
+ON UPDATE CASCADE,
+)
+
+--Tabla de registro de movimientos
+create table Movimiento (
+id_movimiento int NOT NULL,
+nombre_movimiento varchar(100),
+tipo_movimiento varchar(100),
+descripcion varchar(100),
+primary key (id_movimiento ),
+)
+
+--Tabla intermedia de la relacion Movimiento-Pokemon-Entrenador
+create table Movimiento_entrenador_pokemon(
+id_pokemonMe int NOT NULL,
+id_entrenadorMe int NOT NULL,
+movimiento1 int,
+movimiento2 int,
+movimiento3 int,
+movimiento4 int,
+foreign key (id_entrenadorMe) references Usuario (id_usuario)
+ON DELETE CASCADE  
+ON UPDATE CASCADE,
+foreign key (id_pokemonMe) references Pokemon (id_pokemon)
+ON DELETE CASCADE
+ON UPDATE CASCADE,
+foreign key (movimiento1) references Movimiento (id_movimiento)
+ON DELETE CASCADE  
+ON UPDATE CASCADE,
+foreign key (movimiento2) references Movimiento (id_movimiento)
+ON DELETE NO ACTION  
+ON UPDATE NO ACTION,
+foreign key (movimiento3) references Movimiento (id_movimiento)
+ON DELETE NO ACTION  
+ON UPDATE NO ACTION,
+foreign key (movimiento4) references Movimiento (id_movimiento)
+ON DELETE NO ACTION  
+ON UPDATE NO ACTION,
+)
+
+--Tabla de Bitacoras
+create table Bitacora (
+id_entrenadorB int NOT NULL,
+fecha varchar(100),
+descripcion varchar(500),
+foreign key (id_entrenadorB) references Usuario (id_usuario)
+ON DELETE CASCADE  
+ON UPDATE CASCADE,
+)
+
+--Tabla intermedia de la relacion usuario administrador y pokemon
+create table Administra_pokemon (
+id_usuarioA int NOT NULL,
+id_pokemonA int NOT NULL,
+foreign key (id_usuarioA) references Usuario (id_usuario)
+ON DELETE CASCADE  
+ON UPDATE CASCADE,
+foreign key (id_pokemonA) references Pokemon (id_pokemon)
+ON DELETE CASCADE  
+ON UPDATE CASCADE,
+)
