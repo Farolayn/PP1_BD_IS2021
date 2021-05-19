@@ -19,13 +19,13 @@ canton varchar(100),
 distrito varchar(100),
 telefono varchar(100),
 correo_electronico varchar(100),
-contraseña varbinary (100),
+contraseña varchar (50),
 primary key(id_usuario)
 )
 
 --Tabla de Pokemones
 create table Pokemon (
-id_pokemon int IDENTITY NOT NULL,
+id_pokemon int IDENTITY (1,1) NOT NULL unique,
 nombre_pokemon varchar(100) NOT NULL,
 Tipo1 varchar(100),
 Tipo2 varchar(100),
@@ -37,8 +37,7 @@ ataque_especial int,
 defensa_especial int,
 velocidad int,
 generacion int,
-legendario bit not null,
-foto_pokemon image,
+legendario varchar (15) not null,
 primary key (id_pokemon),
 )
 
@@ -107,6 +106,7 @@ ON UPDATE CASCADE,
 create table Administra_pokemon (
 id_usuarioA int NOT NULL,
 id_pokemonA int NOT NULL,
+foto_pokemon image,
 foreign key (id_usuarioA) references Usuario (id_usuario)
 ON DELETE CASCADE  
 ON UPDATE CASCADE,
@@ -114,3 +114,12 @@ foreign key (id_pokemonA) references Pokemon (id_pokemon)
 ON DELETE CASCADE  
 ON UPDATE CASCADE,
 )
+
+
+--CARGA DE POKEMONES A LA TABLA RESPECTIVA
+
+BULK INSERT Pokemon 
+from 'C:\Users\Alejandra Merino\Documents\TEC\ATI\III SEM\Bases de datos\Proyecto\Carga_Pokemon_2.txt' 
+with (firstrow = 1, fieldterminator = ',', rowterminator = '\n');
+
+
