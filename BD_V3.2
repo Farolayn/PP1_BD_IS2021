@@ -30,7 +30,7 @@ nombre_pokemon varchar(100) NOT NULL,
 Tipo1 varchar(100),
 Tipo2 varchar(100),
 total int,
-salud int,
+hp int,
 ataque int,
 defensa int,
 ataque_especial int,
@@ -38,8 +38,10 @@ defensa_especial int,
 velocidad int,
 generacion int,
 legendario bit not null,
+foto_pokemon image,
 primary key (id_pokemon),
 )
+
 
 --Tabla de Mochila pokemon
 create table Mochila (
