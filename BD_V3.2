@@ -2,10 +2,7 @@
 	Bases de Datos
 	Proyecto AtiDex
 Integrantes:
-
-
 */
-
 --Selecciona la BD a utilizar
 use AtiDex
 
@@ -22,7 +19,6 @@ correo_electronico varchar(100),
 contraseña varchar (50),
 primary key(id_usuario)
 )
-
 --Tabla de Pokemones
 create table Pokemon (
 id_pokemon int IDENTITY (1,1) NOT NULL unique,
@@ -40,8 +36,6 @@ generacion int,
 legendario varchar (15) not null,
 primary key (id_pokemon),
 )
-
-
 --Tabla de Mochila pokemon
 create table Mochila (
 id_entrenadorMo int NOT NULL,
@@ -54,7 +48,6 @@ foreign key (id_pokemonMo) references Pokemon (id_pokemon)
 ON DELETE CASCADE 
 ON UPDATE CASCADE,
 )
-
 --Tabla de registro de movimientos
 create table Movimiento (
 id_movimiento int IDENTITY NOT NULL,
@@ -63,7 +56,6 @@ tipo_movimiento varchar(100),
 descripcion varchar(100),
 primary key (id_movimiento ),
 )
-
 --Tabla intermedia de la relacion Movimiento-Pokemon-Entrenador
 create table Movimiento_entrenador_pokemon(
 id_pokemonMe int NOT NULL,
@@ -91,7 +83,6 @@ foreign key (movimiento4) references Movimiento (id_movimiento)
 ON DELETE NO ACTION  
 ON UPDATE NO ACTION,
 )
-
 --Tabla de Bitacoras
 create table Bitacora (
 id_entrenadorB int NOT NULL,
@@ -101,7 +92,6 @@ foreign key (id_entrenadorB) references Usuario (id_usuario)
 ON DELETE CASCADE  
 ON UPDATE CASCADE,
 )
-
 --Tabla intermedia de la relacion usuario administrador y pokemon
 create table Administra_pokemon (
 id_usuarioA int NOT NULL,
@@ -114,12 +104,41 @@ foreign key (id_pokemonA) references Pokemon (id_pokemon)
 ON DELETE CASCADE  
 ON UPDATE CASCADE,
 )
-
-
 --CARGA DE POKEMONES A LA TABLA RESPECTIVA
-
 BULK INSERT Pokemon 
-from 'C:\Users\Alejandra Merino\Documents\TEC\ATI\III SEM\Bases de datos\Proyecto\Carga_Pokemon_2.txt' 
+from 'C:\Users\farol\OneDrive\Escritorio\TEC\AtiDex\Carga_Pokemon_2.txt' 
 with (firstrow = 1, fieldterminator = ',', rowterminator = '\n');
 
 
+--INSERCIONES
+
+INSERT INTO Movimiento (nombre_movimiento, tipo_movimiento, descripcion) 
+VALUES (N'Absorb', N'Grass', N'A nutrient-draining attack. The user''s HP is restored by half the damage taken by the target.')
+
+INSERT INTO Movimiento (nombre_movimiento, tipo_movimiento, descripcion) 
+VALUES (N'Bite', N'Dark', N'The target is bitten with viciously sharp fangs. This may also make the target flinch.')
+
+INSERT INTO Movimiento (nombre_movimiento, tipo_movimiento, descripcion) 
+VALUES (N'Charge', N'Electric', N'The user boosts the power of the Electric move it uses on the next turn.')
+
+INSERT INTO Movimiento (nombre_movimiento, tipo_movimiento, descripcion) 
+VALUES (N'Dig', N'Ground', N'The user burrows, then attacks on the next turn. It can also be used to exit dungeons.')
+
+INSERT INTO Movimiento (nombre_movimiento, tipo_movimiento, descripcion) 
+VALUES (N'Ember', N'Fire', N'The target is attacked with small flames. This may also leave the target with a burn.')
+
+INSERT INTO Movimiento (nombre_movimiento, tipo_movimiento, descripcion)  
+VALUES (N'Surf', N'Water', N'The user attacks everything around it by swamping its surroundings with a giant wave.')
+
+
+INSERT INTO Usuario (nombre_usuario, rol, provincia, canton, distrito, telefono, correo_electronico, contraseña) 
+VALUES (N'Farolayn', N'Administrador', N'Guanacaste', N'Hojancha', N'Hojancha', N'86583994', N'farolayn@gmail.com', N'nomekop')
+
+INSERT INTO Usuario (nombre_usuario, rol, provincia, canton, distrito, telefono, correo_electronico, contraseña)  
+VALUES (N'97alem', N'Administrador', N'Puntarenas', N'Corredores', N'La Cuesta', N'86363013', N'merino.ale97@gmail.com', N'543sodonu')
+
+INSERT INTO Usuario (nombre_usuario, rol, provincia, canton, distrito, telefono, correo_electronico, contraseña)  
+VALUES (N'Felipe', N'Entrenador', N'Cartago', N'Cartago', N'San Francisco', N'62398280', N'felespe1099@gmail.com', N'ogatrac')
+
+INSERT INTO Usuario (nombre_usuario, rol, provincia, canton, distrito, telefono, correo_electronico, contraseña)  
+VALUES (N'Josue', N'Visitante', N'Alajuela', N'San Carlos', N'Pocosol', N'85032845', N'josuebrenesa26@gmail.com', N'losocop')
