@@ -11,7 +11,7 @@ use AtiDex
 
 --Tabla de usuarios--
 create table Usuario (
-id_usuario int IDENTITY NOT NULL,
+id_usuario int IDENTITY (1,1) NOT NULL,
 nombre_usuario varchar(100),
 rol varchar(50),
 provincia varchar(100),
