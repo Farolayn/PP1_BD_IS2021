@@ -2,25 +2,42 @@
 	Bases de Datos
 	Proyecto AtiDex
 Integrantes:
-
+Paola Lopez
+Josue Brenes
+Alejandra Merino
+Felipe Esquivel
 
 */
 
 --Selecciona la BD a utilizar
+
 use AtiDex
 
 --Tabla de usuarios--
-create table Usuario (
-id_usuario int IDENTITY (1,1) NOT NULL,
+Create table Usuario (
+id_usuario int NOT NULL,
 nombre_usuario varchar(100),
 rol varchar(50),
+contraseña varchar(MAX),
+primary key (id_usuario)
+)
+
+
+create table Informacion_Usuario(
+id_usuario_I int NOT NULL,
+direccion varchar(100),
 provincia varchar(100),
 canton varchar(100),
 distrito varchar(100),
 telefono varchar(100),
 correo_electronico varchar(100),
-contraseña varchar (50),
-primary key(id_usuario)
+red_social varchar(50),
+sitio_web varchar(100),
+ubicacion varchar(100),
+
+foreign key (id_usuario_I) references Usuario (id_usuario)
+ON DELETE CASCADE  
+ON UPDATE CASCADE,
 )
 
 --Tabla de Pokemones
@@ -38,15 +55,16 @@ defensa_especial int,
 velocidad int,
 generacion int,
 legendario varchar (15) not null,
+imagen image,
 primary key (id_pokemon),
 )
-
 
 --Tabla de Mochila pokemon
 create table Mochila (
 id_entrenadorMo int NOT NULL,
 id_pokemonMo int NOT NULL,
 estado varchar (20),
+
 foreign key (id_entrenadorMo) references Usuario (id_usuario) 
 ON DELETE CASCADE  
 ON UPDATE CASCADE,
@@ -58,10 +76,14 @@ ON UPDATE CASCADE,
 --Tabla de registro de movimientos
 create table Movimiento (
 id_movimiento int IDENTITY NOT NULL,
+id_pokemonMo int NOT NULL,
 nombre_movimiento varchar(100),
 tipo_movimiento varchar(100),
 descripcion varchar(100),
-primary key (id_movimiento ),
+primary key (id_movimiento),
+foreign key (id_pokemonMo) references Pokemon (id_pokemon)
+ON DELETE CASCADE  
+ON UPDATE CASCADE,
 )
 
 --Tabla intermedia de la relacion Movimiento-Pokemon-Entrenador
@@ -79,8 +101,8 @@ foreign key (id_pokemonMe) references Pokemon (id_pokemon)
 ON DELETE CASCADE
 ON UPDATE CASCADE,
 foreign key (movimiento1) references Movimiento (id_movimiento)
-ON DELETE CASCADE  
-ON UPDATE CASCADE,
+ON DELETE NO ACTION  
+ON UPDATE NO ACTION,
 foreign key (movimiento2) references Movimiento (id_movimiento)
 ON DELETE NO ACTION  
 ON UPDATE NO ACTION,
@@ -92,6 +114,7 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION,
 )
 
+
 --Tabla de Bitacoras
 create table Bitacora (
 id_entrenadorB int NOT NULL,
@@ -102,24 +125,107 @@ ON DELETE CASCADE
 ON UPDATE CASCADE,
 )
 
---Tabla intermedia de la relacion usuario administrador y pokemon
-create table Administra_pokemon (
-id_usuarioA int NOT NULL,
-id_pokemonA int NOT NULL,
-foto_pokemon image,
-foreign key (id_usuarioA) references Usuario (id_usuario)
-ON DELETE CASCADE  
-ON UPDATE CASCADE,
-foreign key (id_pokemonA) references Pokemon (id_pokemon)
-ON DELETE CASCADE  
-ON UPDATE CASCADE,
-)
-
 
 --CARGA DE POKEMONES A LA TABLA RESPECTIVA
-
 BULK INSERT Pokemon 
-from 'C:\Users\Alejandra Merino\Documents\TEC\ATI\III SEM\Bases de datos\Proyecto\Carga_Pokemon_2.txt' 
+from 'C:\Users\farol\OneDrive\Escritorio\TEC\AtiDex\Carga_Pokemon_2.txt' 
 with (firstrow = 1, fieldterminator = ',', rowterminator = '\n');
 
 
+--INSERCIONES
+
+--movimientos
+INSERT INTO Movimiento (id_pokemonMo, nombre_movimiento, tipo_movimiento, descripcion) 
+VALUES (1,N'Absorb', N'Grass', N'A nutrient-draining attack. The user''s HP is restored by half the damage taken by the target.')
+
+INSERT INTO Movimiento (id_pokemonMo, nombre_movimiento, tipo_movimiento, descripcion) 
+VALUES (1, N'Bite', N'Dark', N'The target is bitten with viciously sharp fangs. This may also make the target flinch.')
+
+INSERT INTO Movimiento (id_pokemonMo, nombre_movimiento, tipo_movimiento, descripcion) 
+VALUES (1, N'Charge', N'Electric', N'The user boosts the power of the Electric move it uses on the next turn.')
+
+INSERT INTO Movimiento (id_pokemonMo, nombre_movimiento, tipo_movimiento, descripcion) 
+VALUES (1, N'Dig', N'Ground', N'The user burrows, then attacks on the next turn. It can also be used to exit dungeons.')
+
+INSERT INTO Movimiento (id_pokemonMo, nombre_movimiento, tipo_movimiento, descripcion) 
+VALUES (2, N'Ember', N'Fire', N'The target is attacked with small flames. This may also leave the target with a burn.')
+
+INSERT INTO Movimiento (id_pokemonMo, nombre_movimiento, tipo_movimiento, descripcion)  
+VALUES (2, N'Surf', N'Water', N'The user attacks everything around it by swamping its surroundings with a giant wave.')
+
+--Inserciones usuario
+
+INSERT INTO Usuario (id_usuario, nombre_usuario, rol,contraseña)
+VALUES (504390817, 'Farolayn', 'Administrador','hola')
+INSERT INTO Usuario (id_usuario, nombre_usuario, rol,contraseña)
+VALUES (604390302,'97alem', 'Administrador','unodos34')
+INSERT INTO Usuario (id_usuario, nombre_usuario, rol,contraseña)
+VALUES (208140809,'Josue', 'Cliente','pocosol')
+INSERT INTO Usuario (id_usuario, nombre_usuario, rol,contraseña)
+VALUES (555555555,'Felipe', 'Entrenador','pokemon')
+
+--Inserciones de informacion de usuario
+
+INSERT INTO Informacion_Usuario (id_usuario_I, direccion,provincia,canton,distrito,telefono, correo_electronico,red_social, sitio_web, ubicacion)
+VALUES (504390817,'250 metros Oeste del CTP de Hojancha','Guanacaste','Hojancha','Hojancha',86583994,'farolayn@gmail.com','Facebook','HTTPS//....',' ')
+
+INSERT INTO Informacion_Usuario (id_usuario_I, direccion,provincia,canton,distrito,telefono, correo_electronico,red_social, sitio_web, ubicacion)
+VALUES (604390302,'Puntarenas a la vuelta','Puntarenas','Corredores','La Cuesta',86363013,'merino.ale97@gmail.com','Instagram','HTTPS//....',' ')
+
+INSERT INTO Informacion_Usuario (id_usuario_I, direccion,provincia,canton,distrito,telefono, correo_electronico,red_social, sitio_web, ubicacion)
+VALUES (208140809,'Alajuela a la vuelta','Alajuela','San Carlos','Pocosol',85032845,'josuebrenesa26@gmail.com','Twitter','HTTPS//....',' ')
+
+INSERT INTO Informacion_Usuario (id_usuario_I, direccion,provincia,canton,distrito,telefono, correo_electronico,red_social, sitio_web, ubicacion)
+VALUES (555555555,'Cartago a la vuelta','Cartago','Cartago','San Francisco',62398280,'felespe1099@gmail.com','TikTok','HTTPS//....',' ')
+
+
+--------------------INICIO DE SESION--------------------
+
+Create TABLE Inicio_Sesion (
+	Nombre_Usuario varchar (30) NOT NULL unique,
+	contraseña varbinary (max) NOT NULL,
+	llave varchar(max) NOT NULL,
+	rol varchar (20) NOT NULL check(rol = 'Administrador' or rol = 'Cliente' or rol = 'Entrenador'),
+	
+	primary key(Nombre_Usuario)
+	)
+
+	--EJECUTAR TODO HASTA AQUI, ESTO HAGANLO UNO POR UNO POR PEDACITOS DE PROCESOS
+
+--ENCRIPTAR CONTRASEÑAR
+
+CREATE PROC Inserta_clave
+	@nombre_usuario varchar(30),
+	@pss varchar(max),
+	@llave varchar(max),
+	@rol varchar (20)
+AS
+	declare
+	@pssb varbinary(max)
+BEGIN
+	set @pssb = (ENCRYPTBYPASSPHRASE(@llave, @pss));
+	INSERT INTO Inicio_Sesion values (@nombre_usuario, @pssb, @llave, @rol )
+END
+
+EXEC Inserta_clave 'Farolayn', 'hola','atidex', 'Administrador'
+EXEC Inserta_clave '97alem', 'unodos34', 'atidex', 'Entrenador'
+EXEC Inserta_clave 'Josue', 'pocosol', 'atidex', 'Cliente'
+
+-----AUTENTICAR USUARIO ----
+CREATE PROCEDURE [LoginUsuario] 
+	@username VARCHAR(30),
+	@rol VARCHAR(30),
+   @contraseña NVARCHAR(max)
+AS
+BEGIN
+    SELECT Nombre_Usuario FROM Inicio_Sesion WHERE Nombre_Usuario = @username AND rol = @rol AND CONVERT(VARCHAR(max), DECRYPTBYPASSPHRASE(llave,contraseña)) = @contraseña
+		
+END
+GO
+
+--pruebas de funcionamiento
+EXEC [LoginUsuario] 'Farolayn', 'Administrador', 'hola'
+
+--FIN
+
+select * from Inicio_Sesion
